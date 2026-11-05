@@ -20,6 +20,7 @@ Game context: score, roof, surface, temperature, wind, Vegas line and over/under
 3) Dome vs. outdoor vs. retractable scoring (after cleaning).
 
 **Tier 2: CTEs and window functions** 
+
 4. Rank RBs per season by DK points per game, with a minimum-games filter.
 5. A 4-game rolling average of fantasy points per player.
 6. Target share: each player’s share of their team’s targets per game.
@@ -27,6 +28,7 @@ Game context: score, roof, surface, temperature, wind, Vegas line and over/under
 
 
 **Tier 3: the context stories (your publishable findings)**
+
 8. Game script: when a team is a 7+ point favorite vs. an underdog, how does the pass/run mix change?
 9. Wind: does yards per pass attempt fall once wind passes about 15 mph?
 10. Does the over/under hold up? At the game level, compare actual total points to Over_Under. How often does the over hit, and does that change by roof or surface?
