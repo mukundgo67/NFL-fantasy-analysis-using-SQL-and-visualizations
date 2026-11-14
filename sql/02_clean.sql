@@ -103,7 +103,4 @@ NULLIF(NULLIF(TRIM(Vegas_Favorite), ''), 'ERROR - abbrev_team') AS vegas_favorit
 
 
 
-SELECT roof, COUNT(*) AS n, COUNT(temperature) AS temp_rows,
-       MIN(temperature) AS min_temp, MAX(temperature) AS max_temp
-FROM dbo.vw_player_game
-GROUP BY roof;*/
+
