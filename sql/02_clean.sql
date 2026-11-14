@@ -52,7 +52,7 @@ SELECT
     rec_yac, rec_drops, offense, off_pct,
 
     -- game context
-    d.gd AS game_date,
+    d.gd AS game_date, --Conversion done in CROSS APPLY as it makes it easier to use it in a CASE rather than converting it everytime
     CASE WHEN MONTH(d.gd)<=2
         THEN YEAR(d.gd)-1
         ELSE YEAR(d.gd)
@@ -62,25 +62,28 @@ SELECT
     OT                                AS ot,
     TRIM(Roof)                        AS roof,
     TRIM(Surface)                     AS surface,
-    /*Temperature                       AS temperature,*/
+    --Replacing temp, humidity,wind_speed as they contain placeholder values for non outdoor games
     CASE
     WHEN TRIM(Roof) ='outdoors'       THEN Temperature
     ELSE NULL 
     END AS temperature,
-    /*Humidity                          AS humidity,*/
+    
     CASE 
     WHEN TRIM(Roof) ='outdoors'        THEN Humidity
     ELSE NULL
     END AS humidity,
-    /*Wind_Speed                        AS wind_speed,*/
+
     CASE
     WHEN TRIM(Roof) ='outdoors'        THEN wind_Speed
     ELSE NULL
     END AS wind_speed,
+    
+    --Placing the games into indoor and non indoor games
     CASE
     WHEN TRIM(Roof) ='outdoors'        THEN 0
     ELSE 1
     END AS is_indoor,
+    
     d.vegas_line AS vegas_line, --vegas_line gets converted in the apply clause
     d.vegas_favorite AS vegas_favorite, --vegas_favorite also gets converted in the apply clause
     CASE
@@ -97,25 +100,7 @@ TRY_CAST(Vegas_Line AS decimal(6,2)) AS vegas_line,
 NULLIF(NULLIF(TRIM(Vegas_Favorite), ''), 'ERROR - abbrev_team') AS vegas_favorite
 ) AS d;
 
---script to check if the team_spread CASE worked
-/*select DISTINCT(game_id), team, vegas_favorite,vegas_line, team_spread
-from dbo.vw_player_game*/
 
---script to check when teams dont have a spread
-/*SELECT DISTINCT (game_id), team, vegas_line, vegas_favorite, team_spread
-FROM dbo.vw_player_game
-WHERE game_id IN ('202012020pit','202012070pit','202012080rav','202111290was','202112260rai')
-ORDER BY game_id, team*/
-
-
-/*select DISTINCT(game_id),team,roof, temperature, humidity, wind_speed
-from dbo.vw_player_game
-where roof='outdoors'*/
-
-/* to check how many game were played indoors
-select is_indoor, count(*) as n
-from dbo.vw_player_game
-group by is_indoor?
 
 
 SELECT roof, COUNT(*) AS n, COUNT(temperature) AS temp_rows,
