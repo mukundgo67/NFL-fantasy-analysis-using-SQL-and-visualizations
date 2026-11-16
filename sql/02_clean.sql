@@ -1,4 +1,4 @@
-CREATE OR ALTER VIEW dbo.vw_player_game AS
+CREATE OR ALTER VIEW dbo.vw_player_game_clean AS
 SELECT
     -- keys and identifiers
     game_id,
