@@ -153,7 +153,7 @@ SELECT roof,
        MAX(temperature)   AS max_temp,
        MIN(wind_speed)    AS min_wind,
        MAX(wind_speed)    AS max_wind
-FROM dbo.vw_player_game
+FROM dbo.vw_player_game_clean
 GROUP BY roof;
 -- expect outdoors: temp_rows = n, temps about 7 to 93, wind 0 to 35
 --        every other roof: temp_rows = 0 and NULL min / max
