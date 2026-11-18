@@ -1,0 +1,17 @@
+﻿roof,position_group,games,player_rows,avg_off_dkp,se_of_mean
+retractable roof (closed),QB,110,266,17.700000,0.66
+retractable roof (open),QB,16,37,16.310000,1.51
+dome,QB,127,321,16.150000,0.58
+outdoors,QB,567,1370,15.430000,0.27
+retractable roof (closed),RB,110,588,9.090000,0.38
+retractable roof (open),RB,16,85,9.080000,0.92
+dome,RB,127,696,9.030000,0.34
+outdoors,RB,567,3117,8.490000,0.15
+retractable roof (closed),WR,110,1053,8.380000,0.27
+dome,WR,127,1207,8.150000,0.26
+retractable roof (open),WR,16,155,7.430000,0.71
+outdoors,WR,567,5529,7.170000,0.11
+retractable roof (open),TE,16,95,4.610000,0.58
+dome,TE,127,732,4.440000,0.22
+retractable roof (closed),TE,110,636,4.440000,0.23
+outdoors,TE,567,3248,4.320000,0.11
