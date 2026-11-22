@@ -1,3 +1,44 @@
+-- Q7a: Receiver efficiency leaders (catch rate, drop rate, YAC per reception)
+-- Tier 2 (CTEs and window functions)
+-- Reads from: dbo.vw_player_game
+--
+-- Metrics (all computed from SEASON TOTALS, not averaged per-game ratios,
+-- so a 12-target game counts for more than a 2-target game):
+--   catch_rate  = receptions / targets, as a percentage
+--   drop_rate   = drops / targets, as a percentage (LOWER is better)
+--   yac_per_rec = yards after catch / receptions
+--
+-- Notes:
+--  * Only WR, TE and RB are included. FB, QB and Other are excluded.
+--  * Minimum 41 targets in the season to qualify (WHERE total_targets > 40).
+--    The filter is applied BEFORE ranking, so small samples (3 targets,
+--    3 catches = 100%) can't take a leaderboard spot.
+--  * Rankings are within season AND position group. RBs catch shorter passes
+--    and would dominate a combined list, so each position is ranked against
+--    its own group.
+--  * Ranks use the unrounded rates. Rounding (DECIMAL(5,2)) happens only in
+--    the final SELECT, so rounding can't create false ties.
+--  * Ties: catch rate and drop rate ties are broken by total targets (more
+--    targets ranks higher, since the same rate on a bigger sample is more
+--    convincing). YAC ties are not broken. RANK is used, so tied players
+--    share a position and a season can return more than 10 rows.
+--  * Drop rate is ranked ascending: the lowest rate is rank 1. Many players
+--    have zero or near-zero drops, so the targets tiebreak matters most here.
+--  * A player appears if he is a top-10 leader in at least one metric. His
+--    other two ranks are still shown, even when they are poor.
+--  * YAC divides by receptions, not targets. The 41-target minimum does not
+--    guarantee many catches, so YAC for low-reception players is noisy.
+--  * Grouped by player_id, so players who share a name stay separate. Grouped
+--    by position_group too, so a player whose position label changes during a
+--    season could be split into two partial rows. [Add the result of the
+--    position-label check here.]
+--  * rec_drops and rec_yac come from the advanced stats columns, which the
+--    fact table stores as NOT NULL, so missing source data would show as 0.
+--    [Add the result of the completeness check here.]
+--  * Division uses 100.0 or 1.0 to avoid integer division (these columns are
+--    SMALLINT), and NULLIF guards against a zero denominator.
+--  * Playoff games are included.
+
 use NFL_offensive_fantasy_analysis;
 go
 
